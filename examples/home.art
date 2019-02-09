@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+    <title>{{title}}</title>
+  </head>
+  <body>
+  <%include('./navbar.art')%>
+  <%
+    include('./header.art', {title: title})
+  %>
+  <p>home page</p>
+  <img src="//pic0.iqiyipic.com/lequ/20190208/fa93579da70e439486431cf382b871fb.jpg" alt="青春有新番" rseat="712211_focus_yuleimage1" data-pb="c1=" class="qy-mod-cover">
+</body>
+</html>

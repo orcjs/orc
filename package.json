@@ -1,0 +1,32 @@
+{
+  "name": "orc",
+  "version": "0.0.1",
+  "description": "nodejs webserver framework",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orcjs/orc.git"
+  },
+  "keywords": [
+    "webserver"
+  ],
+  "author": {
+    "name": "余树",
+    "email": "fe.lizhoukai@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orcjs/orc/issues"
+  },
+  "homepage": "https://github.com/orcjs/orc#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "art-template": "^4.13.2"
+  }
+}
