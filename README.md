@@ -37,18 +37,10 @@ const routes = {
 // 创建应用实例
 const app = new Orc({ port, router })
 
-// 中间件用于注入内容，只支持obj string格式
-app.use(async (ctx, next) => {
-  await next()
-  ctx.body = {
-    code: '0',
-    msg: 'success'
-  }
-})
 
 // 监听报错
 app.on('error', err => {
-  console.log('error happends: ', err.stack)
+  console.log('error: ', err.stack)
 })
 
 ```
