@@ -14,7 +14,7 @@ npm i -S orcjs
 
 ## 快速上手
 
-在项目目录根目录新建一个例如 `app.js`, 用于引入 `orcjs`
+在项目根目录新建一个例如 `app.js`, 用于引入 `orcjs`
 
 
 ```js
