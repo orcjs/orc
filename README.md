@@ -7,7 +7,7 @@ node.js  webserver framework
 ## 安装
 
 ```bash
-git close https://github.com/orcjs/orc.git
+npm i -S orcjs
 ```
 
 
@@ -18,25 +18,31 @@ git close https://github.com/orcjs/orc.git
 
 
 ```js
-// 创建Orc实例
-const Orc = require('../orc')
+const Orc = require('orcjs')
 // 端口，默认端口不传为7000
 const port = 8000
 
-// 路由配置
+/*
+* 路由配置
+* @description key : 路由路径
+* @description title : 页面标题
+* @description fileName : 文件名
+*/
 const routes = {
   '/': { title: '首页', fileName: 'home.art' },
   '/about': { title: '关于', fileName: 'about.art' }
+  '/other': { title: '其他', fileName: 'other.html' }
 }
 
+// 创建应用实例
 const app = new Orc({ port, router })
 
-// 中间件用于注册内容 支持 obj arr string number
+// 中间件用于注入内容，只支持obj string格式
 app.use(async (ctx, next) => {
   await next()
   ctx.body = {
-    code: 0,
-    data: ['hello Word']
+    code: '0',
+    msg: 'success'
   }
 })
 
@@ -45,6 +51,11 @@ app.on('error', err => {
   console.log('error happends: ', err.stack)
 })
 
+```
+
+
+```js
+node app.js // 走你
 ```
 
 ## 模板引擎

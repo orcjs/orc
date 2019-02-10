@@ -1,5 +1,5 @@
 {
-  "name": "orc",
+  "name": "orcjs",
   "version": "0.0.1",
   "description": "nodejs webserver framework",
   "main": "index.js",
@@ -18,7 +18,7 @@
     "name": "余树",
     "email": "fe.lizhoukai@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/orcjs/orc/issues"
   },
