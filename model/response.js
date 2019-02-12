@@ -13,7 +13,7 @@ module.exports = {
   },
 
   /**
-   * 设置返回给客户端的body内容
+   * 返回给前端数据
    *
    * @param {mixed} data body内容
    */

@@ -2,7 +2,7 @@
  * @Author: 余树
  * @Date: 2019-02-09 12:53:19
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-09 21:18:46
+ * @Last Modified time: 2019-02-12 17:30:28
  * @description: Content-type
  */
 'use strict'
@@ -31,11 +31,13 @@ const mime = {
   '.gif': 'image/gif',
   '.gz': 'application/x-gzip',
   '.hqx': 'application/mac-binhex40',
-  '.html': 'text/html',
-  '.art': 'text/html',
+  '.html': 'text/html; charset=UTF-8',
+  '.art': 'text/html; charset=UTF-8',
   '.jar': 'application/java-archive',
   '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.js': 'application/javascript',
+  '.json': 'application/json',
   '.midi': 'audio/x-midi',
   '.mp3': 'audio/mpeg',
   '.mpeg': 'video/mpeg',
@@ -63,6 +65,8 @@ const mime = {
   '.tsv': 'text/tab-separated-values',
   '.txt': 'text/plain',
   '.wav': 'audio/x-wav',
+  '.wma': 'audio/x-ms-wma',
+  '.wmv': 'video/x-ms-wmv',
   '.xlam': 'application/vnd.ms-excel.addin.macroEnabled.12',
   '.xls': 'application/vnd.ms-excel',
   '.xlsb': 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',

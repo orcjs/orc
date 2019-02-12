@@ -2,7 +2,7 @@
  * @Author: 余树
  * @Date: 2019-02-09 12:53:19
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-09 18:31:28
+ * @Last Modified time: 2019-02-12 16:58:07
  * @description: 中间件实例处理
  */
 'use strict'
@@ -11,7 +11,7 @@ const context = require('../model/context')
 const request = require('../model/request')
 const response = require('../model/response')
 const errorParser = require('../handle/error-parser')
-const bodyParser = require('../handle/body-parser')
+const bodyParser = require('../handle')
 
 class Middleware {
   constructor() {
@@ -27,8 +27,6 @@ class Middleware {
    * @param {Function} middleware  中间件函数
    */
   add(middleware) {
-    // console.log(self)
-    // this.orcParm = self
     this.middlewareQueue.push(middleware)
   }
 
@@ -65,10 +63,10 @@ class Middleware {
   handlerInstance(orcObj) {
     return (req, res) => {
       const ctx = this.createCtx(req, res)
-      const respondFn = () => bodyParser.handle.call(orcObj, ctx)
-      const errorFn = err => errorParser.handle.call(orcObj, err, ctx)
+      const bodyParserFn = () => bodyParser(orcObj, ctx)
+      const errorFn = err => errorParser(orcObj, ctx, err)
       return this.handleMiddleware()(ctx)
-        .then(respondFn)
+        .then(bodyParserFn)
         .catch(errorFn)
     }
   }

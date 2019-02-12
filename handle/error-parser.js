@@ -2,23 +2,23 @@
  * @Author: 余树
  * @Date: 2019-02-09 12:53:19
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-09 21:54:25
- * @description: error解析
+ * @Last Modified time: 2019-02-12 17:24:33
+ * @description: error处理
  */
 'use strict'
+const mine = require('../utils/mine')
 
-class ErrorParser {
-  constructor() {}
-
-  /**
-   * 错误处理
-   * @param {Object} err Error对象
-   * @param {Object} ctx ctx实例
-   */
-  handle(err, ctx) {
-    ctx.res.statusCode = 500
-    ctx.res.end('system error')
-    this.emit('error', err)
-  }
+/**
+ * @param {Object} err Error对象
+ * @param {Object} ctx ctx实例
+ */
+function handle(self, ctx, { statusCode, suffix, msg }) {
+  ctx.res.writeHead(statusCode, {
+    'Content-Type': `${mine[suffix]}`,
+    'X-powered-by': 'orcjs'
+  })
+  ctx.res.end(msg)
+  self.emit('error', msg)
 }
-module.exports = new ErrorParser()
+
+module.exports = handle
