@@ -2,7 +2,7 @@
  * @Author: 余树
  * @Date: 2019-02-09 12:53:19
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-12 18:12:01
+ * @Last Modified time: 2019-02-16 19:40:09
  * @description: html处理
  */
 'use strict'
@@ -11,40 +11,90 @@ const path = require('path')
 const fs = require('fs')
 const renderTpl = require('art-template')
 const mine = require('../utils/mine')
-const getAbsolutePath = (...pathArr) => {
+const getAbsPath = (...pathArr) => {
   return path.resolve.apply(path, [process.cwd(), ...pathArr])
+}
+
+/**
+ * 递归遍历工作目录下的所有file，用于跟 views 配置项里的 fileName 做匹配校验
+ * @param {String} absPath 当前工作目录
+ */
+const filterByFile = absPath => {
+  let files = fs.readdirSync(absPath)
+  let results = []
+
+  files.forEach(fileName => {
+    let filePath = path.join(absPath, fileName)
+    let stat = fs.statSync(filePath)
+    if (stat && stat.isDirectory() && fileName !== 'node_modules') {
+      results = results.concat(filterByFile(filePath))
+    } else {
+      results.push(filePath)
+    }
+  })
+  return results
 }
 
 function handle(self, ctx) {
   const {
+    body,
     url: { pathname }
   } = ctx
-  let filePath
-  const { router } = self.orcProto
+  let absPath
+  const { views, rootPath } = self.orcProto
+  const currRootPath = rootPath ? `/${rootPath}/` : '/'
 
-  if (router[pathname]) {
-    var { title, fileName } = router[pathname]
-    filePath = getAbsolutePath(`./${fileName}`)
+  console.log(`请求路径 ：${pathname}`)
+
+  // 有配置views页面
+  if (views && views[pathname]) {
+    var { title, fileName } = views[pathname]
+    absPath = getAbsPath(`.${currRootPath}`)
+    const fileList = filterByFile(absPath) // 遍历出来的有效 fileList
+    const fileIdx = fileList.findIndex(x => {
+      // 查找当前请求的 fileName 是否为有效文件
+      return x.indexOf(fileName) > -1
+    })
+    let filePath = fileList[fileIdx]
+
+    if (filePath) {
+      fs.stat(filePath, function(err, stats) {
+        const suffix = path.extname(filePath)
+        const html = renderTpl(filePath, { title: title })
+
+        ctx.res.writeHead(200, {
+          'Content-Type': `${mine[suffix]}`,
+          'X-powered-by': 'orcjs'
+        })
+        ctx.res.end(html)
+      })
+    } else {
+      const msg = `404 Not Found：请求路径 "${pathname}"， Views配置项中未找到文件 "${fileName}"`
+
+      ctx.res.writeHead(404, {
+        'Content-Type': 'text/html; charset=UTF-8',
+        'X-powered-by': 'orcjs'
+      })
+      ctx.res.end(msg)
+      self.emit('error', msg)
+    }
   } else {
-    throw {
-      statusCode: 404,
-      suffix: '.html',
-      msg: '404 Not Found：请配置路由：new Orc({...router})'
+    // 无配置views
+    // 中间件body 渲染
+    if (typeof body === 'string') {
+      ctx.res.writeHead(200, {
+        'Content-Type': 'text/html; charset=UTF-8',
+        'X-powered-by': 'orcjs'
+      })
+      ctx.res.end(body)
+    } else {
+      throw {
+        statusCode: 404,
+        suffix: '.html',
+        msg: `404 Not Found， 请求路径 "${pathname}"，Router 配置项未找到`
+      }
     }
   }
-
-  fs.stat(filePath, function(err, stats) {
-    const suffix = path.extname(filePath)
-    const html = renderTpl(filePath, { title: title })
-    const msg = `404 Not Found：请为该路由配置文件 "${filePath}"`
-
-    ctx.res.writeHead(stats ? 200 : 404, {
-      'Content-Type': `${mine[suffix]}`,
-      'X-powered-by': 'orcjs'
-    })
-    ctx.res.end(stats ? html : msg)
-    if (!stats) self.emit('error', msg)
-  })
 }
 
 module.exports = handle

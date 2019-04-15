@@ -2,7 +2,7 @@
  * @Author: 余树
  * @Date: 2019-02-09 12:53:19
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-12 16:58:07
+ * @Last Modified time: 2019-02-15 14:44:19
  * @description: 中间件实例处理
  */
 'use strict'
@@ -19,7 +19,6 @@ class Middleware {
     this.context = context
     this.request = request
     this.response = response
-    this.orcParm = null
   }
 
   /**
@@ -44,6 +43,7 @@ class Middleware {
       }
 
       const { length } = this.middlewareQueue
+
       let next = async () => {
         return Promise.resolve()
       }

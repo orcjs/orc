@@ -4,9 +4,12 @@
   "description": "",
   "main": "test.js",
   "scripts": {
-    "dev": "node --inspect test.js",
+    "dev": "node --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }
