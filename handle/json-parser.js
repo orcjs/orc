@@ -11,11 +11,11 @@ function handle(self, ctx) {
   const { body } = ctx
   const json = JSON.stringify(body)
 
-  ctx.res.end(json)
   ctx.res.writeHead(200, {
     'Content-Type': 'application/json',
     'X-powered-by': 'orcjs'
   })
+  ctx.res.end(json)
 }
 
 module.exports = handle
