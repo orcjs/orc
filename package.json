@@ -1,6 +1,6 @@
 {
   "name": "orcjs",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "nodejs webserver framework",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "nodemon": "^1.18.11"
   },
   "dependencies": {
-    "art-template": "^4.13.2"
+    "art-template": "^4.13.2",
+    "eventemitter3": "^4.0.0"
   }
 }

@@ -1,17 +1,21 @@
 const Orc = require('../index')
-const DEV_VIEWS = require('./manage/views')
-const DEV_PORT = 7000
-const DEV_DIR = 'examples'
+const ROUTER_CONF = require('./manage/router')
+
 const app = new Orc({
-  port: DEV_PORT,
-  views: DEV_VIEWS,
-  rootPath: DEV_DIR
+  port: 8887,
+  router: ROUTER_CONF,
+  rootPath: 'examples'
 })
 
-const router = require('./router')
-
-app.use(router.handle())
-
-app.on('error', err => {
-  console.log('错误提示: ', err)
+// JSON
+app.get('/me', {
+  code: 1,
+  resultData: {
+    name: '余树',
+    age: 18,
+    city: 'HangZhou'
+  }
 })
+
+// HTML
+app.get('/orc', 'hellow orcjs')

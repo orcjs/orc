@@ -1,42 +1,50 @@
 /*
  * @Author: 余树
- * @Date: 2019-02-09 12:53:19
+ * @Date: 2019-07-24 14:48:40
  * @Last Modified by: 余树
- * @Last Modified time: 2019-02-15 11:31:58
- * @description: Orc实例
+ * @Last Modified time: 2019-07-25 14:36:05
  */
 'use strict'
 
-const EventEmitter = require('events')
-const http = require('http')
-const middleware = require('./middleware')
+const METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+const Eventemitter = require('eventemitter3')
+const server = require('./manage/server')
+const errorParser = require('./handle/error-parser')
 
-class Orc extends EventEmitter {
+class Orc extends Eventemitter {
   /**
    * 初始化参数
-   * @param {object} obj 端口号 && 路由配置
+   * @param {Array} routerList [路由列表]
+   * @param {object} conf [路由配置]
+   * @param {object} req [request对象]
+   * @param {object} res [response对象]
    */
-  constructor(obj) {
-    super(obj)
-    this.orcProto = obj
-    this.listen()
+  constructor(conf) {
+    super()
+    const port = conf.port || 3000
+    this.routerList = []
+    this.conf = conf || {}
+    this.req = {}
+    this.res = {}
+    this.init()
+    server.call(this, port)
   }
-
-  // 端口
-  listen() {
-    const { orcProto } = this
-    const port = (orcProto && orcProto.port) || 3000
-
-    http.createServer(middleware.handlerInstance(this)).listen(port)
-    console.log(`- Local: http://localhost:${port}`)
-  }
-
   /**
-   * 分发到 middleware类下
-   * @param {Function} middleware  中间件函数
+   * 自定义路由
+   * @param {String} path [路径]
+   * @param {string || object } content [内容]
    */
-  use(data) {
-    middleware.add(data)
+  init() {
+    METHODS.forEach(x => {
+      Orc.prototype[x.toLowerCase()] = Orc.prototype[x.toLowerCase()] = function(path, content) {
+        this.routerList.push({ path, content })
+      }
+    })
+
+    // 监听捕获报错
+    this.on('error', errConf => {
+      errorParser.call(this, errConf)
+    })
   }
 }
 
