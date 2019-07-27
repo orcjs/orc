@@ -16,20 +16,20 @@ const URL = require('url')
  * @param {obj} req [request对象]
  * @param {obj} res [response对象]
  */
-function handle() {
-  const { pathname } = URL.parse(this.req.url)
+function handle(req, res) {
+  const { pathname } = URL.parse(req.url)
   let currParser
 
   // 遍历定义的路由列表
   if (this.routerList.length) {
     this.routerList.forEach(x => {
       if (x.path === pathname) {
-        this.res.body = x.content
+        res.body = x.content
       }
     })
   }
 
-  if (typeof this.res.body === 'object') {
+  if (typeof res.body === 'object') {
     currParser = require(`./${PARSERS[0]}.js`)
   } else if (/\.\w+/.test(pathname) && pathname.indexOf('.action') === -1) {
     currParser = require(`./${PARSERS[1]}.js`)
@@ -37,7 +37,7 @@ function handle() {
     // 处理 body 空 || 有路由配置 || 中间件body string格式
     currParser = require(`./${PARSERS[2]}.js`)
   }
-  currParser.call(this)
+  currParser.call(this, req, res)
 }
 
 module.exports = handle

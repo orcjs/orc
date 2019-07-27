@@ -7,14 +7,14 @@
  */
 'use strict'
 
-function handleJSON() {
-  const json = JSON.stringify(this.res.body)
+function handleJSON(req, res) {
+  const json = JSON.stringify(res.body)
 
-  this.res.writeHead(200, {
+  res.writeHead(200, {
     'Content-Type': 'application/json',
     'X-powered-by': 'orcjs'
   })
-  this.res.end(json)
+  res.end(json)
 }
 
 module.exports = handleJSON

@@ -36,11 +36,8 @@ const filterByFile = absPath => {
   return results
 }
 
-function handleHtml() {
-  const {
-    res: { body }
-  } = this
-  const { pathname } = URL.parse(this.req.url)
+function handleHtml(req, res) {
+  const { pathname } = URL.parse(req.url)
   const { router, rootPath } = this.conf
   let absPath
   const currRootPath = rootPath ? `/${rootPath}/` : '/'
@@ -62,7 +59,7 @@ function handleHtml() {
         const suffix = path.extname(filePath)
         const html = renderTpl(filePath, { title: title })
 
-        this.res.writeHead(200, {
+        res.writeHead(200, {
           'Content-Type': `${mine[suffix]}`,
           'X-powered-by': 'orcjs'
         })
@@ -70,7 +67,7 @@ function handleHtml() {
           const renderJS = require(filePath)
           renderJS.call(this)
         } else {
-          this.res.end(html)
+          res.end(html)
         }
       })
     } else {
@@ -84,12 +81,12 @@ function handleHtml() {
   } else {
     // 无配置router
     // 中间件body 渲染
-    if (typeof body === 'string') {
-      this.res.writeHead(200, {
+    if (typeof res.body === 'string') {
+      res.writeHead(200, {
         'Content-Type': 'text/html; charset=UTF-8',
         'X-powered-by': 'orcjs'
       })
-      this.res.end(body)
+      res.end(res.body)
     } else {
       const errConf = {
         statusCode: 404,

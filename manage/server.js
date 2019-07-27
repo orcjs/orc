@@ -18,7 +18,7 @@ function server(port) {
     .createServer((req, res) => {
       this.req = req
       this.res = res
-      handleParser.call(this)
+      handleParser.call(this, req, res)
     })
     .listen(port)
 
