@@ -55,7 +55,7 @@ app.get('/orc', 'hellow orcjs')
 例如定义了一个 `test.js`文件
 ```js
 // 这边需要注意的是 function 不可改为箭头函数，this 对象指针会发生变化
-// this 对象，指针默认只想 Orc 实例
+// this 对象，指针默认指向 Orc 实例
 module.exports = function() {
   this.res.writeHead(200, {
     'Content-Type': 'text/html; charset=UTF-8',

@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/orcjs/orc/issues"
   },
-  "homepage": "https://github.com/orcjs/orc#readme",
+  "homepage": "https://github.com/orcjs/orc/blob/master/README.md",
   "devDependencies": {
     "nodemon": "^1.18.11"
   },
