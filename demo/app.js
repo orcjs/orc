@@ -1,4 +1,4 @@
-const Orc = require('../index')
+const Orc = require('../dist/index')
 const ROUTER_CONF = require('./manage/router')
 
 const app = new Orc({
