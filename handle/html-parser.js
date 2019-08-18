@@ -92,7 +92,7 @@ function handleHtml(req, res) {
       const errConf = {
         statusCode: 404,
         suffix: '.html',
-        msg: `404 Not Found， 请求路径 "${pathname}"，routerConf 配置项未找到`
+        msg: `404 Not Found， 请求路径 "${pathname}"，未配置routerConf `
       }
       this.handleError(res, errConf)
     }

@@ -1,6 +1,6 @@
 {
   "name": "orcjs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "nodejs webserver framework",
   "main": "dist/index.js",
   "files": [
@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "start": "node demo/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js"
   },
   "repository": {
     "type": "git",
