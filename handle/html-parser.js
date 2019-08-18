@@ -38,14 +38,13 @@ const filterByFile = absPath => {
 
 function handleHtml(req, res) {
   const { pathname } = URL.parse(req.url)
-  const { router, rootPath } = this.conf
+  const { routerConf, rootPath } = this.conf
   let absPath
   const currRootPath = rootPath ? `/${rootPath}/` : '/'
-  console.log(`请求路径 ：${pathname}`)
 
-  // 有配置router页面
-  if (router && router[pathname]) {
-    var { title, fileName } = router[pathname]
+  // 有配置routerConf页面
+  if (routerConf && routerConf[pathname]) {
+    var { title, fileName } = routerConf[pathname]
     absPath = getAbsPath(`.${currRootPath}`)
     const fileList = filterByFile(absPath) // 遍历出来的有效 fileList
     const fileIdx = fileList.findIndex(x => {
@@ -63,9 +62,11 @@ function handleHtml(req, res) {
           'Content-Type': `${mine[suffix]}`,
           'X-powered-by': 'orcjs'
         })
+
+        // 服务端js逻辑编辑
         if (suffix === '.js') {
           const renderJS = require(filePath)
-          renderJS.call(this)
+          renderJS(req, res)
         } else {
           res.end(html)
         }
@@ -74,12 +75,12 @@ function handleHtml(req, res) {
       const errConf = {
         statusCode: 404,
         suffix: '.html',
-        msg: `404 Not Found：请求路径 "${pathname}"， router配置项中未找到文件 "${fileName}"`
+        msg: `404 Not Found：请求路径 "${pathname}"， routerConf配置项中未找到文件 "${fileName}"`
       }
-      this.emit('error', errConf)
+      this.handleError(res, errConf)
     }
   } else {
-    // 无配置router
+    // 无配置routerConf
     // 中间件body 渲染
     if (typeof res.body === 'string') {
       res.writeHead(200, {
@@ -91,9 +92,9 @@ function handleHtml(req, res) {
       const errConf = {
         statusCode: 404,
         suffix: '.html',
-        msg: `404 Not Found， 请求路径 "${pathname}"，Router 配置项未找到`
+        msg: `404 Not Found， 请求路径 "${pathname}"，routerConf 配置项未找到`
       }
-      this.emit('error', errConf)
+      this.handleError(res, errConf)
     }
   }
 }

@@ -57,15 +57,15 @@ function handleStatic(req, res) {
   const currRootPath = rootPath ? `/${rootPath}/` : '/'
   const filePath = getAbsPath(`.${currRootPath}${pathname}`)
   const suffix = path.extname(filePath)
-  const errMsg = `404 Not Found：未找到该静态文件 "${filePath}"`
 
   fs.stat(filePath, (err, stat) => {
     if (err) {
-      res.writeHead(404, {
-        'Content-Type': `${mine[suffix]}`,
-        'X-powered-by': 'orcjs'
-      })
-      res.end(errMsg)
+      const errConf = {
+        statusCode: 404,
+        suffix: `${mine[suffix]}`,
+        msg: `404 Not Found：未找到该静态文件 "${filePath}"`
+      }
+      this.handleError(res, errConf)
       return
     }
 

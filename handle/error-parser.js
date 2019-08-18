@@ -13,12 +13,12 @@ const mine = require('../utils/mine')
  * @param {String} suffix [请求文件后缀]
  * @param {String} msg [提示信息]
  */
-function handleError({ statusCode, suffix, msg }) {
-  this.res.writeHead(statusCode, {
+function handleError(res, { statusCode, suffix, msg }) {
+  res.writeHead(statusCode, {
     'Content-Type': `${mine[suffix]}`,
     'X-powered-by': 'orcjs'
   })
-  this.res.end(msg)
+  res.end(msg)
 }
 
 module.exports = handleError

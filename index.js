@@ -7,25 +7,21 @@
 'use strict'
 
 const METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
-const Eventemitter = require('eventemitter3')
 const server = require('./manage/server')
-const errorParser = require('./handle/error-parser')
+const handleError = require('./handle/error-parser')
 
-class Orc extends Eventemitter {
+class Orc {
   /**
    * 初始化参数
    * @param {Array} routerList [路由列表]
-   * @param {object} conf [路由配置]
-   * @param {object} req [request对象]
-   * @param {object} res [response对象]
+   * @param {object} conf [实例配置]
+   * @param {Function} handleError [处理错误]
    */
   constructor(conf) {
-    super()
     const port = conf.port || 3000
     this.routerList = []
     this.conf = conf || {}
-    this.req = {}
-    this.res = {}
+    this.handleError = handleError
     this.init()
     server.call(this, port)
   }
@@ -36,14 +32,9 @@ class Orc extends Eventemitter {
    */
   init() {
     METHODS.forEach(x => {
-      Orc.prototype[x.toLowerCase()] = Orc.prototype[x.toLowerCase()] = function(path, content) {
+      Orc.prototype[x.toLowerCase()] = Orc.prototype[x.toLowerCase()] = function (path, content) {
         this.routerList.push({ path, content })
       }
-    })
-
-    // 监听捕获报错
-    this.on('error', errConf => {
-      errorParser.call(this, errConf)
     })
   }
 }

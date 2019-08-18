@@ -1,13 +1,13 @@
 {
   "name": "orcjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "nodejs webserver framework",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "start": "nodemon --inspect demo/app.js",
+    "start": "node demo/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,11 +28,8 @@
     "url": "https://github.com/orcjs/orc/issues"
   },
   "homepage": "https://github.com/orcjs/orc/blob/master/README.md",
-  "devDependencies": {
-    "nodemon": "^1.18.11"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "art-template": "^4.13.2",
-    "eventemitter3": "^4.0.0"
+    "art-template": "^4.13.2"
   }
 }

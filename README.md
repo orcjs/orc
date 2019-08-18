@@ -22,7 +22,7 @@ const ROUTER_CONF = require('./manage/router')
 // 实例化对象
 const app = new Orc({
   port: 8887, // 定义端口 || 默认值 3000
-  router: ROUTER_CONF,
+  routerConf: ROUTER_CONF,
   rootPath: 'examples' // 开发目录 || 默认值当前目录
 })
 ```
@@ -54,14 +54,13 @@ app.get('/orc', 'hellow orcjs')
 
 例如定义了一个 `test.js`文件
 ```js
-// 这边需要注意的是 function 不可改为箭头函数，this 对象指针会发生变化
-// this 对象，指针默认指向 Orc 实例
-module.exports = function() {
-  this.res.writeHead(200, {
+// 函数体暴露req、res对象
+module.exports = (req, res) => {
+  res.writeHead(200, {
     'Content-Type': 'text/html; charset=UTF-8',
     'X-powered-by': 'orcjs'
   })
-  this.res.end('hello orcjs')
+  res.end('hello orcjs')
 }
 ```
 
@@ -75,8 +74,8 @@ module.exports = function() {
 
 ## 注意事项
 - 路由规则
-  + `router` 项定义的 `fileName` 是在你定义的 `rootPath` 开发目录下进行递归查询的，若没找到该文件，Orc 会进行错误提示
-  + `router` 和 `app.xx` 两个可以一起使用，看具体场景
+  + `routerConf` 项定义的 `fileName` 是在你定义的 `rootPath` 开发目录下进行递归查询的，若没找到该文件，Orc 会进行错误提示
+  + `routerConf` 和 `node服务端js` 两个可以一起使用，看具体场景
 - 目前还不支持第三方中间件
 
 ## License

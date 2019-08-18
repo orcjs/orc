@@ -3,7 +3,7 @@ const ROUTER_CONF = require('./manage/router')
 
 const app = new Orc({
   port: 8887,
-  router: ROUTER_CONF,
+  routerConf: ROUTER_CONF,
   rootPath: 'demo'
 })
 
