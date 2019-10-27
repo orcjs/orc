@@ -59,8 +59,7 @@ function handleHtml(req, res) {
         const html = renderTpl(filePath, { title: title })
 
         res.writeHead(200, {
-          'Content-Type': `${mine[suffix]}`,
-          'X-powered-by': 'orcjs'
+          'Content-Type': `${mine[suffix]}`
         })
 
         // 服务端js逻辑编辑
@@ -84,8 +83,7 @@ function handleHtml(req, res) {
     // 中间件body 渲染
     if (typeof res.body === 'string') {
       res.writeHead(200, {
-        'Content-Type': 'text/html; charset=UTF-8',
-        'X-powered-by': 'orcjs'
+        'Content-Type': 'text/html; charset=UTF-8'
       })
       res.end(res.body)
     } else {

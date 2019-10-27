@@ -72,7 +72,6 @@ function handleStatic(req, res) {
     // 定义头部
     const headData = {
       'Content-Type': `${mine[suffix]}`,
-      'X-powered-by': 'orcjs',
       'Last-Modified': stat.mtime.toUTCString() || '',
       'Cache-Control': 'private, max-age=2048',
       Expires: new Date(Date.now() + MAX_AGE * 1000).toUTCString(),

@@ -16,6 +16,9 @@ const handleParser = require('../handle/index')
 function server(port) {
   http
     .createServer((req, res) => {
+      res.setHeader('Access-Control-Allow-Origin', '*')
+      res.setHeader('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+      res.setHeader('X-powered-by', 'orcjs')
       handleParser.call(this, req, res)
     })
     .listen(port)

@@ -7,3 +7,4 @@ typings/
 dist/
 typings.json
 .vscode/
+.clinic/

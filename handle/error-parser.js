@@ -15,8 +15,7 @@ const mine = require('../utils/mine')
  */
 function handleError(res, { statusCode, suffix, msg }) {
   res.writeHead(statusCode, {
-    'Content-Type': `${mine[suffix]}`,
-    'X-powered-by': 'orcjs'
+    'Content-Type': `${mine[suffix]}`
   })
   res.end(msg)
 }

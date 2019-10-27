@@ -11,8 +11,7 @@ function handleJSON(req, res) {
   const json = JSON.stringify(res.body)
 
   res.writeHead(200, {
-    'Content-Type': 'application/json',
-    'X-powered-by': 'orcjs'
+    'Content-Type': 'application/json'
   })
   res.end(json)
 }
